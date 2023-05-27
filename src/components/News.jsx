@@ -1,6 +1,7 @@
-const News = ({ article }) => {
-  const { urlToImage, title, description, url } = article;
+import React from "react";
 
+const News = ({ article }) => {
+  const { title, description, url, urlToImage } = article;
   return (
     <div className="card mb-3" style={{ width: "18rem" }}>
       <img

@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "./components/Title";
 import Form from "./components/Form";
 import ListNews from "./components/ListNews";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
+  const [country, setCountry] = useState("");
   const [category, setCategory] = useState("");
   const [news, setNews] = useState([]);
 
   useEffect(() => {
     const fetchNews = async () => {
       const apiKey = "b9adb0d4fb554c4e870dcc4577bd6bb0";
-      const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+      const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`;
 
       try {
         const response = await fetch(apiUrl);
@@ -24,9 +25,12 @@ const App = () => {
         console.log("Error", error);
       }
     };
-
     fetchNews();
-  }, [category]);
+  }, [country, category]);
+
+  const handleCountryChange = (e) => {
+    setCountry(e.target.value);
+  };
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -35,7 +39,10 @@ const App = () => {
   return (
     <div className="container">
       <Title />
-      <Form handleCategoryChange={handleCategoryChange} />
+      <Form
+        handleCountryChange={handleCountryChange}
+        handleCategoryChange={handleCategoryChange}
+      />
       <ListNews news={news} />
     </div>
   );
